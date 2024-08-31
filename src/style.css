@@ -59,6 +59,7 @@ body{
 .side-item:hover{
     background-color: var(--highlightGray);
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .side-item-icon{

@@ -1,6 +1,7 @@
 import {cacheInput, clearInput} from "./modules/cacheInput.js"
-import {renderDOM, renderPage} from "./modules/renderDOM.js"
-import {updateCount} from "./modules/countandFilter.js"
+import {renderDOM} from "./modules/renderDOM.js"
+import {renderPage} from "./modules/renderPage.js"
+import {updateCount} from "./modules/updateCount.js"
 
 
 // cache DOM elements
@@ -14,12 +15,13 @@ const domElements = {
     priorityCount: document.querySelector(`.priority-count`),
     todayCount: document.querySelector(`.today-count`),
     tomorrowCount: document.querySelector(`.tomorrow-count`),
-    homeBtn: document.querySelector(`.home`),
-    priorityBtn: document.querySelector(`.priority`),
-    todayBtn: document.querySelector(`.today`),
-    tomorrowBtn: document.querySelector(`.tomorrow`),
+    homePage: document.querySelector(`.home`),
+    priorityPage: document.querySelector(`.priority`),
+    todayPage: document.querySelector(`.today`),
+    tomorrowPage: document.querySelector(`.tomorrow`),
     heading: document.querySelector(`.content-heading`)
 }
+
 
 // Store all the Tasks
 const allItems = [
@@ -49,15 +51,12 @@ const allItems = [
     }
 ];
 
-// store finished Tasks
-const checkedItems = [
-
-];
 
 // activate DOM modal
 domElements.addTask.addEventListener(`click`, ()=>{
    domElements.modal.showModal();
 });
+
 
 // create new tasks and render
 let newItem = {};
@@ -70,8 +69,8 @@ domElements.modalBtn.addEventListener(`click`, ()=>{
     updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
 });
 
-// change and render finished tasks.
 
+// change and render finished tasks.
 // window.addEventListener("DOMContentLoaded", () => {
 //     const checkBox = document.querySelectorAll(`.checkBoxer`);
 //     checkBox.forEach((box) =>{
@@ -87,7 +86,6 @@ domElements.modalBtn.addEventListener(`click`, ()=>{
 //         });
 //     })
 // });
-
 function changeStatus(event){
     if(event.target.checked){
         allItems[event.target.value].finished = true;
@@ -103,12 +101,12 @@ window.changeStatus = changeStatus;
 
 
 //render pages
-renderPage(domElements, domElements.homeBtn);
-renderPage(domElements, domElements.priorityBtn);
-renderPage(domElements, domElements.todayBtn);
-renderPage(domElements, domElements.tomorrowBtn);
+renderPage(domElements.homePage, domElements, allItems);
+renderPage(domElements.priorityPage, domElements, allItems);
+renderPage(domElements.todayPage, domElements, allItems);
+renderPage(domElements.tomorrowPage, domElements, allItems);
 
 
 //render and update count on page start
-renderDOM(allItems,domElements,changeStatus);
+renderDOM(allItems,domElements);
 updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
