@@ -1,5 +1,5 @@
-import {cacheInput} from "./modules/cacheInput.js"
-import {renderDOM} from "./modules/renderDOM.js"
+import {cacheInput, clearInput} from "./modules/cacheInput.js"
+import {renderDOM, renderPage} from "./modules/renderDOM.js"
 import {updateCount} from "./modules/countandFilter.js"
 
 
@@ -13,7 +13,12 @@ const domElements = {
     homeCount: document.querySelector(`.home-count`),
     priorityCount: document.querySelector(`.priority-count`),
     todayCount: document.querySelector(`.today-count`),
-    tomorrowCount: document.querySelector(`.tomorrow-count`)
+    tomorrowCount: document.querySelector(`.tomorrow-count`),
+    homeBtn: document.querySelector(`.home`),
+    priorityBtn: document.querySelector(`.priority`),
+    todayBtn: document.querySelector(`.today`),
+    tomorrowBtn: document.querySelector(`.tomorrow`),
+    heading: document.querySelector(`.content-heading`)
 }
 
 // Store all the Tasks
@@ -60,26 +65,50 @@ domElements.modalBtn.addEventListener(`click`, ()=>{
     newItem = cacheInput();
     allItems.push(newItem);
     domElements.modal.close();
+    clearInput();
     renderDOM(allItems,domElements);
-    console.log(allItems);
+    updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
 });
 
-renderDOM(allItems,domElements);
+// change and render finished tasks.
 
-// render finished tasks on finished tab
-const checkBox = document.querySelectorAll(`.checkBoxer`);
-checkBox.forEach((box) =>{
-    box.addEventListener(`change`, (event)=>{
-        if(box.checked){
-            allItems[event.target.value].finished = true;
-        }
-        else{
-            allItems[event.target.value].finished = false;
-        }
-        renderDOM(allItems,domElements);
-        console.log(allItems);
-    });
-})
+// window.addEventListener("DOMContentLoaded", () => {
+//     const checkBox = document.querySelectorAll(`.checkBoxer`);
+//     checkBox.forEach((box) =>{
+//         box.addEventListener(`change`, (event)=>{
+//             if(box.checked){
+//                 allItems[event.target.value].finished = true;
+//             }
+//             else{
+//                 allItems[event.target.value].finished = false;
+//             }
+//             renderDOM(allItems,domElements);
+//             updateCount(domElements.homeCount, domElements.priorityCount, domElements.   todayCount, domElements.tomorrowCount, allItems);
+//         });
+//     })
+// });
 
-//update Task count on sidebar
+function changeStatus(event){
+    if(event.target.checked){
+        allItems[event.target.value].finished = true;
+    }
+    else{
+        allItems[event.target.value].finished = false;
+    }
+    renderDOM(allItems,domElements,changeStatus);
+    updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
+}
+//ChangeStatus function attached to window to be available globally
+window.changeStatus = changeStatus;
+
+
+//render pages
+renderPage(domElements, domElements.homeBtn);
+renderPage(domElements, domElements.priorityBtn);
+renderPage(domElements, domElements.todayBtn);
+renderPage(domElements, domElements.tomorrowBtn);
+
+
+//render and update count on page start
+renderDOM(allItems,domElements,changeStatus);
 updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
