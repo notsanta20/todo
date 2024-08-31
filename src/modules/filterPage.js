@@ -2,6 +2,13 @@ import {renderDOM} from "./renderDOM.js"
 
 function filterItems(currentPage,dom,array){
     let filteredArray = [];
+
+    const tempToday = new Date();
+    const tempTomorrow = new Date(tempToday)
+    tempTomorrow.setDate(tempToday.getDate() + 1);
+    const day = tempToday.getDate();
+    const nextDay = `0` + tempTomorrow.getDate();
+
     if(currentPage === `Priority`){
         array.forEach((item)=>{
             if(item.priority === `1`){
@@ -10,8 +17,6 @@ function filterItems(currentPage,dom,array){
         })
     }
     else if (currentPage === `Today`){
-        const fullDate = new Date;
-        const day = fullDate.getDate();
         array.forEach((item)=>{
             if(item.dueDate.slice(-2) == day){
                 filteredArray.push(item);
@@ -19,10 +24,8 @@ function filterItems(currentPage,dom,array){
         });
     }
     else if (currentPage === `Tomorrow`){
-        const fullDate = new Date;
-        const day = fullDate.getDate();
         array.forEach((item)=>{
-            if(item.dueDate.slice(-2) == day + 1){
+            if(item.dueDate.slice(-2) == nextDay.slice(-2)){
                 filteredArray.push(item);
             }
         });

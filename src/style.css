@@ -194,6 +194,11 @@ select{
     font-size: 1rem;
 }
 
+input:focus{
+    outline: none;
+    border: 1px solid #ffffff;
+}
+
 .btn{
     padding: 10px;
     font-family: Fraunces;
@@ -206,3 +211,12 @@ select{
 .btn:hover{
     background-color:  #cbcbcc;
 }
+
+.input-red{
+    border: 1px solid rgb(223, 66, 66);
+}
+
+.input-red:focus{
+    border: 1px solid rgb(223, 66, 66);
+}
+

@@ -1,7 +1,8 @@
 import {cacheInput, clearInput} from "./modules/cacheInput.js"
 import {renderDOM} from "./modules/renderDOM.js"
-import {renderPage} from "./modules/renderPage.js"
+import {renderPage} from "./modules/filterPage.js"
 import {updateCount} from "./modules/updateCount.js"
+import {validateForm} from "./modules/formValidation.js"
 
 
 // cache DOM elements
@@ -52,9 +53,10 @@ const allItems = [
 ];
 
 
-// activate DOM modal
+// activate DOM modal and Validate form
 domElements.addTask.addEventListener(`click`, ()=>{
    domElements.modal.showModal();
+   validateForm(domElements);
 });
 
 
