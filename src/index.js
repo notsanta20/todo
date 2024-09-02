@@ -3,6 +3,7 @@ import {renderDOM} from "./modules/renderDOM.js"
 import {renderPage} from "./modules/filterPage.js"
 import {updateCount} from "./modules/updateCount.js"
 import {validateForm} from "./modules/formValidation.js"
+import {createProject,createProjectElements} from "./modules/projects.js"
 
 
 // cache DOM elements
@@ -20,7 +21,12 @@ const domElements = {
     priorityPage: document.querySelector(`.priority`),
     todayPage: document.querySelector(`.today`),
     tomorrowPage: document.querySelector(`.tomorrow`),
-    heading: document.querySelector(`.content-heading`)
+    heading: document.querySelector(`.content-heading`),
+    projectModal: document.querySelector(`.project-modal`),
+    projectAddBtn: document.querySelector(`.project-add-btn`),
+    projectModalBtn: document.querySelector(`.project-modal-btn`),
+    projectInput: document.querySelector(`#project-input`),
+    sideBar: document.querySelector(`.side-project`)
 }
 
 
@@ -51,6 +57,9 @@ const allItems = [
         finished: true
     }
 ];
+
+//Store Projects
+const projects = [`Ideas`, `Dev`];
 
 
 // activate DOM modal and Validate form
@@ -110,5 +119,18 @@ renderPage(domElements.tomorrowPage, domElements, allItems);
 
 
 //render and update count on page start
+projects.forEach((item)=>{
+    createProjectElements(domElements, item);
+})
 renderDOM(allItems,domElements);
 updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
+
+//Create and Delete projects
+createProject(domElements, projects);
+
+//Delete Projects
+function deleteProject(event){
+    domElements.sideBar.removeChild(event.target.parentElement);
+}
+
+window.deleteProject = deleteProject;

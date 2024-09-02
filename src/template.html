@@ -39,17 +39,17 @@
                     <div class="tomorrow-count" data-d="Tomorrow">1</div>
                 </div>
             </div>
-            <div class="side-projects">
-                <div class="side-projects-heading">Projects</div>
-                <div class="side-item">
-                    <span class="material-symbols-outlined side-item-icon">donut_large</span>
-                    <div class="side-item-lable">Ideas</div>
-                    <div class="idea-count">2</div>
-                </div>
-                <div class="side-item">
-                    <span class="material-symbols-outlined side-item-icon">donut_large</span>
-                    <div class="side-item-lable">Dev</div>
-                    <div class="dev-count">5</div>
+            <div class="side-project">
+                <div class="side-project-header">
+                    <div class="side-project-heading">Projects</div>
+                    <span class="material-symbols-outlined side-item-icon project-icon project-add-btn">add</span>
+                    <dialog class="project-modal">
+                        <div class="project-modal-heading">Create new Project</div>
+                        <div class="project-modal-grp">
+                            <input type="text" name="project-input" id="project-input">
+                            <button class="project-modal-btn">Create</button>
+                        </div>
+                    </dialog>
                 </div>
             </div>
         </div>

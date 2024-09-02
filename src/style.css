@@ -43,16 +43,11 @@ body{
     font-weight: 900;
 }
 
-.side-content{
-
-}
-
 .side-item{
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 10px 15px;
-    margin: 10px;
+    padding: 15px 20px;
     font-size: 1.1rem;
 }
 
@@ -62,22 +57,63 @@ body{
     cursor: pointer;
 }
 
-.side-item-icon{
-    
-}
-
 .side-item-lable{
     flex: 1;
 }
 
-.side-projects{
+.side-project{
     margin-top: 40px;
 }
 
-.side-projects-heading{
+.project-icon{
+    color: var(--textGray);
+}
+
+.side-project-header{
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+
+.side-project-heading{
     color: var(--textGray);
     font-size: 1.2rem;
-    padding: 15px;
+    flex: 1;
+}
+
+.project-add-btn:hover{
+    cursor: pointer;
+}
+
+.project-modal{
+    background-color: var(--midGray);
+    border: 0px;
+    border-radius: 10px;
+    width: 500px;
+}
+
+.project-modal-grp{
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+}
+
+.project-modal-heading{
+    font-family: Fraunces;
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #ffffff;
+    padding-bottom: 20px;
+}
+
+#project-input{
+    flex: 1;
+}
+
+.project-modal-btn:hover{
+    cursor: pointer;
 }
 
 /* MAIN-CONTENT */
@@ -199,7 +235,8 @@ input:focus{
     border: 1px solid #ffffff;
 }
 
-.btn{
+.btn,
+.project-modal-btn{
     padding: 10px;
     font-family: Fraunces;
     font-size: 1.3rem;
