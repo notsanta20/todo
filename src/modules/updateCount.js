@@ -1,6 +1,6 @@
-function updateCount(home, pri, today, tomorrow, array){
+function updateCount(dom, array){
     //update Home count
-    home.textContent = array.length;
+    dom.homeCount.textContent = array.length;
     
     //update Priority count
     (()=>{
@@ -10,7 +10,7 @@ function updateCount(home, pri, today, tomorrow, array){
                 count++;
             }
         })
-        pri.textContent = count;
+        dom.priorityCount.textContent = count;
     })();
     
 
@@ -31,24 +31,32 @@ function updateCount(home, pri, today, tomorrow, array){
                 count++;
             }
         })
-        today.textContent = count;
+        dom.todayCount.textContent = count;
     })();
 
-        //update Tomorrow count
-        (()=>{
-            let date;
-            let count = 0;
-            array.forEach((item)=>{
-                date = item.dueDate.slice(-2);
-                if(date == nextDay.slice(-2)){
-                    count++;
-                }
-            })
-            tomorrow.textContent = count;
-        })();
+    //update Tomorrow count
+    (()=>{
+        let date;
+        let count = 0;
+        array.forEach((item)=>{
+            date = item.dueDate.slice(-2);
+            if(date == nextDay.slice(-2)){
+                count++;
+            }
+        })
+        dom.tomorrowCount.textContent = count;
+    })();
 
-
-
+    //update Finished count
+    (()=>{
+        let count = 0;
+        array.forEach((item)=>{
+            if(item.finished){
+                count++;
+            }
+        })
+        dom.finishedCount.textContent = count;
+    })();
 }
 
 export{updateCount};

@@ -8,6 +8,7 @@ import {createProject,createProjectElements} from "./modules/projects.js"
 
 // cache DOM elements
 const domElements = {
+    heading: document.querySelector(`.content-heading`),
     addTask: document.querySelector(`.add-task`),
     modal: document.querySelector(`.modal`),
     modalBtn: document.querySelector(`.btn`),
@@ -17,18 +18,19 @@ const domElements = {
     priorityCount: document.querySelector(`.priority-count`),
     todayCount: document.querySelector(`.today-count`),
     tomorrowCount: document.querySelector(`.tomorrow-count`),
+    finishedCount: document.querySelector(`.finished-count`),
     homePage: document.querySelector(`.home`),
     priorityPage: document.querySelector(`.priority`),
     todayPage: document.querySelector(`.today`),
     tomorrowPage: document.querySelector(`.tomorrow`),
-    heading: document.querySelector(`.content-heading`),
+    finishedPage: document.querySelector(`.finished`),
     projectModal: document.querySelector(`.project-modal`),
     projectAddBtn: document.querySelector(`.project-add-btn`),
     projectModalBtn: document.querySelector(`.project-modal-btn`),
     projectInput: document.querySelector(`#project-input`),
-    sideBar: document.querySelector(`.side-project`)
+    sideBar: document.querySelector(`.side-project`),
+    options: document.querySelector(`#grp`)
 }
-
 
 // Store all the Tasks
 const allItems = [
@@ -104,8 +106,7 @@ function changeStatus(event){
     else{
         allItems[event.target.value].finished = false;
     }
-    renderDOM(allItems,domElements,changeStatus);
-    updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
+    renderDOM(allItems,domElements);
 }
 //ChangeStatus function attached to window to be available globally
 window.changeStatus = changeStatus;
@@ -118,19 +119,35 @@ renderPage(domElements.todayPage, domElements, allItems);
 renderPage(domElements.tomorrowPage, domElements, allItems);
 
 
-//render and update count on page start
-projects.forEach((item)=>{
-    createProjectElements(domElements, item);
-})
-renderDOM(allItems,domElements);
-updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
 
 //Create and Delete projects
 createProject(domElements, projects);
+
+//Render projects
+function renderProjects(event){
+    //clear container elements
+    domElements.contentList.innerHTML = ``;
+    domElements.checkedList.innerHTML = ``;
+
+    //render page heading
+    let currentPage = event.target.dataset.d;
+    domElements.heading.textContent = currentPage;
+
+}
+//Attached to window to be available globally
+window.renderProjects = renderProjects;
 
 //Delete Projects
 function deleteProject(event){
     domElements.sideBar.removeChild(event.target.parentElement);
 }
-
+//Attached to window to be available globally
 window.deleteProject = deleteProject;
+
+
+//render and update count on page start
+projects.forEach((item)=>{
+    createProjectElements(domElements, item);
+})
+renderDOM(allItems,domElements);
+updateCount(domElements, allItems);

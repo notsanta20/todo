@@ -30,6 +30,13 @@ function filterItems(currentPage,dom,array){
             }
         });
     }
+    else if(currentPage === `Finished`){
+        array.forEach((item)=>{
+            if(item.finished){
+                filteredArray.push(item);
+            }
+        });
+    }
     else{
         filteredArray = array;
     }
@@ -42,9 +49,8 @@ function renderPage(page,dom,array){
     dom.checkedList.innerHTML = ``;
 
     //render page heading
-    let currentPage;
     page.addEventListener(`click`, (event)=>{
-        currentPage = event.target.dataset.d;
+        let currentPage = event.target.dataset.d;
         dom.heading.textContent = currentPage;
         filterItems(currentPage,dom,array);
     })

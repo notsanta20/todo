@@ -18,13 +18,24 @@ function createProject(dom, array){
 function createProjectElements(dom, name){
     const sideItem = document.createElement(`div`);
     sideItem.classList.add(`side-item`);
+    sideItem.classList.add(`side-item-pro`);
     dom.sideBar.append(sideItem);
 
     sideItem.innerHTML = `
-        <span class="material-symbols-outlined">donut_large</span>
-        <div class="side-item-lable">${name}</div>
+        <div onclick = renderProjects(event)>
+        <span class="material-symbols-outlined" data-d="${name}">donut_large</span>
+        <div class="side-item-lable" data-d="${name}" onclick = renderProjects(event)>${name}</div>
+        </div>
         <span class="material-symbols-outlined project-icon" onclick = deleteProject(event)>delete</span>
     `;
+
+    addProject(dom,name);
+}
+
+function addProject(dom, name){
+    const option = document.querySelector(`option`);
+    option.textContent = name;
+    dom.options.append(option);
 }
 
 export {createProject,createProjectElements};

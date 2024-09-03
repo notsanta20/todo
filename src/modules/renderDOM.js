@@ -55,25 +55,30 @@ function renderDOM(array,dom){
     dom.contentList.innerHTML = ``;
     dom.checkedList.innerHTML = ``;
     
-    array.forEach((item, index) =>{
-        if(item.finished){
-            const checkedItem = document.createElement(`div`);
-            checkedItem.classList.add(`checked-item`);
-            checkedItem.innerHTML = `
-            <input type="checkbox" id="checkbox" class="checkBoxer" value="${index}" onchange="changeStatus(event)" checked>
-            <label for="checkbox" class="checked-item-text">${item.title}</label>`;
-            dom.checkedList.appendChild(checkedItem);
-        }
-        else{
-            const contentItem = document.createElement(`div`);
-            contentItem.classList.add(`content-item`);
-            contentItem.innerHTML = `
-            <input type="checkbox" id="checkbox" class="checkBoxer" value="${index}" onchange="changeStatus(event)">
-            <label for="checkbox" class="content-item-text">${item.title}</label>`;
-            dom.contentList.appendChild(contentItem);
-
-        }
-    });
+    if(array.length === 0){
+        console.log(`Great All the tasks are done`);
+    }
+    else{
+        array.forEach((item, index) =>{
+            if(item.finished){
+                const checkedItem = document.createElement(`div`);
+                checkedItem.classList.add(`checked-item`);
+                checkedItem.innerHTML = `
+                <input type="checkbox" id="checkbox" class="checkBoxer" value="${index}" onchange="changeStatus(event)" checked>
+                <label for="checkbox" class="checked-item-text">${item.title}</label>`;
+                dom.checkedList.appendChild(checkedItem);
+            }
+            else{
+                const contentItem = document.createElement(`div`);
+                contentItem.classList.add(`content-item`);
+                contentItem.innerHTML = `
+                <input type="checkbox" id="checkbox" class="checkBoxer" value="${index}" onchange="changeStatus(event)">
+                <label for="checkbox" class="content-item-text">${item.title}</label>`;
+                dom.contentList.appendChild(contentItem);
+    
+            }
+        });
+    }
 }
 
 

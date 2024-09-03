@@ -57,6 +57,13 @@ body{
     cursor: pointer;
 }
 
+.side-item-pro div{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 15px;
+}
+
 .side-item-lable{
     flex: 1;
 }
