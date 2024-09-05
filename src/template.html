@@ -38,7 +38,7 @@
                     <div class="side-item-lable" data-d="Tomorrow">Tomorrow</div>
                     <div class="tomorrow-count" data-d="Tomorrow"></div>
                 </div>
-                <div class="side-item finshed" data-d="Finished">
+                <div class="side-item finished" data-d="Finished">
                     <span class="material-symbols-outlined side-item-icon" data-d="Finished">done_all</span>
                     <div class="side-item-lable" data-d="Finished">Finished</div>
                     <div class="finished-count" data-d="Finished"></div>
@@ -47,21 +47,27 @@
             <div class="side-project">
                 <div class="side-project-header">
                     <div class="side-project-heading">Projects</div>
-                    <span class="material-symbols-outlined side-item-icon project-icon project-add-btn">add</span>
+                    <span class="material-symbols-outlined side-item-icon project-add-btn">add</span>
                     <dialog class="project-modal">
-                        <div class="project-modal-heading">Create new Project</div>
-                        <div class="project-modal-grp">
-                            <input type="text" name="project-input" id="project-input">
-                            <button class="project-modal-btn">Create</button>
-                        </div>
+                        <form action="" method="dialog">
+                            <div class="project-modal-heading">Create new Project</div>
+                            <div class="project-modal-grp">
+                                <input type="text" name="project-input" id="project-input">
+                                <button class="project-modal-btn">Create</button>
+                            </div>
+                        </form>
                     </dialog>
                 </div>
+                <div class="side-project-items"></div>
             </div>
         </div>
         <div class="main-content">
             <div class="content-header">
                 <h1 class="content-heading">Home</h1>
-                <div class="add-task">+ Add Task</div>
+                <div class="add-task-container">
+                    <span class="material-symbols-outlined add-icon" data-d="Priority">add</span>
+                    <div class="add-task">Add Task</div>
+                </div>
                 <dialog class="modal">
                     <form action="" method="dialog">
                         <div class="modal-heading">Add Todo</div>
@@ -85,7 +91,7 @@
                             <div class="col">
                                 <label for="priority" class="form-label">Priority</label>
                                 <select name="priority" id="priority">
-                                    <option value="">select priority</option>
+                                    <option disabled selected>select priority</option>
                                     <option value="1">🔥🔥🔥</option>
                                     <option value="0">NO</option>
                                 </select>
@@ -93,7 +99,7 @@
                             <div class="col">
                                 <label for="grp" class="form-label">Project</label>
                                 <select name="grp" id="grp">
-                                    <option disabled selected value>Select a project</option>
+                                    <option value="">Test</option>
                                 </select>
                             </div>
                         </div>
@@ -102,10 +108,6 @@
                 </dialog>
             </div>
             <div class="content-list">
-            </div>
-            <div class="checked-list-container">
-                <div class="checked-heading">Finished</div>
-                <div class="checked-list"></div>
             </div>
         </div>
     </div>

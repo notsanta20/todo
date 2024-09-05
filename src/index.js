@@ -1,35 +1,30 @@
-import {cacheInput, clearInput} from "./modules/cacheInput.js"
-import {renderDOM} from "./modules/renderDOM.js"
-import {renderPage} from "./modules/filterPage.js"
-import {updateCount} from "./modules/updateCount.js"
-import {validateForm} from "./modules/formValidation.js"
-import {createProject,createProjectElements} from "./modules/projects.js"
+import { addEvent,renderDOM,cacheInput,clearInput,validateForm,createProject,changeTitle,createProjectElements,currentPage,editTask } from "./modules/modules.js";
 
 
 // cache DOM elements
 const domElements = {
     heading: document.querySelector(`.content-heading`),
-    addTask: document.querySelector(`.add-task`),
-    modal: document.querySelector(`.modal`),
-    modalBtn: document.querySelector(`.btn`),
-    contentList: document.querySelector(`.content-list`),
-    checkedList: document.querySelector(`.checked-list`),
-    homeCount: document.querySelector(`.home-count`),
-    priorityCount: document.querySelector(`.priority-count`),
-    todayCount: document.querySelector(`.today-count`),
-    tomorrowCount: document.querySelector(`.tomorrow-count`),
-    finishedCount: document.querySelector(`.finished-count`),
     homePage: document.querySelector(`.home`),
     priorityPage: document.querySelector(`.priority`),
     todayPage: document.querySelector(`.today`),
     tomorrowPage: document.querySelector(`.tomorrow`),
     finishedPage: document.querySelector(`.finished`),
+    homeCount: document.querySelector(`.home-count`),
+    priorityCount: document.querySelector(`.priority-count`),
+    todayCount: document.querySelector(`.today-count`),
+    tomorrowCount: document.querySelector(`.tomorrow-count`),
+    finishedCount: document.querySelector(`.finished-count`),
+    contentList: document.querySelector(`.content-list`),
+    addTask: document.querySelector(`.add-task-container`),
+    modal: document.querySelector(`.modal`),
+    modalBtn: document.querySelector(`.btn`), 
     projectModal: document.querySelector(`.project-modal`),
     projectAddBtn: document.querySelector(`.project-add-btn`),
     projectModalBtn: document.querySelector(`.project-modal-btn`),
     projectInput: document.querySelector(`#project-input`),
-    sideBar: document.querySelector(`.side-project`),
-    options: document.querySelector(`#grp`)
+    sideBar: document.querySelector(`.side-project-items`),
+    options: document.querySelector(`#grp`),
+    editModal: document.querySelector(`.edit-modal`),
 }
 
 // Store all the Tasks
@@ -39,15 +34,15 @@ const allItems = [
         dueDate: "2024-09-16",
         time: "10:00",
         priority: "1",
-        grp: `beta`,
+        project: `Dev`,
         finished: false
     },
     {
         title: `Buy passes`,
-        dueDate: "2024-08-31",
+        dueDate: "2024-09-04",
         time: "22:00",
         priority: "0",
-        grp: `life`,
+        project: `Life`,
         finished: false
     },
     {
@@ -55,99 +50,84 @@ const allItems = [
         dueDate: "2024-08-15",
         time: "17:30",
         priority: "1",
-        grp: `beta`,
+        project: `Dev`,
         finished: true
     }
 ];
 
 //Store Projects
-const projects = [`Ideas`, `Dev`];
+const projects = [`Life`, `Dev`];
 
+//Change task status
+// document.addEventListener(`click`, (e)=>{
+//     const target = e.target.closest(`.change-status`);
+//     if(target){
+//         const index = target.dataset.index;
+//         const value = allItems[index].finished;
+//         allItems[index].finished = value ? false : true;
+//         updateCount(domElements, allItems);
+//         renderDOM(currentPage,domElements,allItems);
+//     }
+// })
 
-// activate DOM modal and Validate form
+//Open Modal
 domElements.addTask.addEventListener(`click`, ()=>{
-   domElements.modal.showModal();
-   validateForm(domElements);
+    domElements.modal.showModal();
+    validateForm(domElements);
 });
 
-
-// create new tasks and render
-let newItem = {};
+//Add new Tasks
 domElements.modalBtn.addEventListener(`click`, ()=>{
-    newItem = cacheInput();
-    allItems.push(newItem);
-    domElements.modal.close();
+    const newTask = cacheInput();
+    allItems.push(newTask);
+    renderDOM(currentPage,domElements,allItems);
     clearInput();
-    renderDOM(allItems,domElements);
-    updateCount(domElements.homeCount, domElements.priorityCount, domElements.todayCount, domElements.tomorrowCount, allItems);
+    domElements.modal.close();
 });
 
+//Edit Task
+document.addEventListener(`click`, (e)=>{
+    const target = e.target.closest(`.edit-task`);
+    if(target){
 
-// change and render finished tasks.
-// window.addEventListener("DOMContentLoaded", () => {
-//     const checkBox = document.querySelectorAll(`.checkBoxer`);
-//     checkBox.forEach((box) =>{
-//         box.addEventListener(`change`, (event)=>{
-//             if(box.checked){
-//                 allItems[event.target.value].finished = true;
-//             }
-//             else{
-//                 allItems[event.target.value].finished = false;
-//             }
-//             renderDOM(allItems,domElements);
-//             updateCount(domElements.homeCount, domElements.priorityCount, domElements.   todayCount, domElements.tomorrowCount, allItems);
-//         });
-//     })
-// });
-function changeStatus(event){
-    if(event.target.checked){
-        allItems[event.target.value].finished = true;
+        editTask(target,allItems);
     }
-    else{
-        allItems[event.target.value].finished = false;
-    }
-    renderDOM(allItems,domElements);
-}
-//ChangeStatus function attached to window to be available globally
-window.changeStatus = changeStatus;
+})
 
-
-//render pages
-renderPage(domElements.homePage, domElements, allItems);
-renderPage(domElements.priorityPage, domElements, allItems);
-renderPage(domElements.todayPage, domElements, allItems);
-renderPage(domElements.tomorrowPage, domElements, allItems);
-
-
-
-//Create and Delete projects
-createProject(domElements, projects);
+//Open project modal
+createProject(domElements,projects);
 
 //Render projects
-function renderProjects(event){
-    //clear container elements
-    domElements.contentList.innerHTML = ``;
-    domElements.checkedList.innerHTML = ``;
-
-    //render page heading
-    let currentPage = event.target.dataset.d;
-    domElements.heading.textContent = currentPage;
-
-}
-//Attached to window to be available globally
-window.renderProjects = renderProjects;
-
-//Delete Projects
-function deleteProject(event){
-    domElements.sideBar.removeChild(event.target.parentElement);
-}
-//Attached to window to be available globally
-window.deleteProject = deleteProject;
-
-
-//render and update count on page start
-projects.forEach((item)=>{
-    createProjectElements(domElements, item);
+document.addEventListener(`click`, (e)=>{
+    const target = e.target.closest(`.side-item`);
+    if(target){
+        const name = target.dataset.d;
+        changeTitle(name,domElements);
+        renderDOM(name,domElements,allItems);
+    }
 })
-renderDOM(allItems,domElements);
-updateCount(domElements, allItems);
+
+//Delete projects
+document.addEventListener(`click`, (e)=>{
+    const target = e.target.closest(`.project-icon`);
+    if(target){
+        const item = e.target.dataset.d;
+        let index;
+        projects.forEach((pro,i)=>{
+            if(pro === item){
+                index = i;
+            }
+        })
+        projects.splice(index,1);
+    }
+    createProjectElements(domElements,projects);
+})
+
+addEvent(domElements.homePage, domElements, allItems);
+addEvent(domElements.priorityPage, domElements, allItems);
+addEvent(domElements.todayPage, domElements, allItems);
+addEvent(domElements.tomorrowPage, domElements, allItems);
+addEvent(domElements.finishedPage, domElements, allItems);
+
+renderDOM(currentPage,domElements,allItems);
+createProjectElements(domElements,projects);
