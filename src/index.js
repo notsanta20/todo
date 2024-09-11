@@ -1,3 +1,4 @@
+import "./style.css";
 import { addEvent,renderDOM,cacheInput,clearInput,validateForm,createProject,changeTitle,createProjectElements,currentPage,editTask } from "./modules/modules.js";
 
 

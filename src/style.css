@@ -179,7 +179,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 200px;
+    height: 50%;
 }
 
 .content-item{
@@ -328,7 +328,7 @@ input:focus{
         justify-content: center;
         padding: 10px;
         padding-top: 0px;
-        margin-top: 40px;
+        margin-top: 20px;
     }
     
     .side-header img{
@@ -341,14 +341,25 @@ input:focus{
         overflow: scroll;
         margin: 10px;
     }
+
+    .side-item div:last-child{
+        display: none;
+    }
     
     .side-item span:first-of-type{
         display: none;
     }
-
+/* 
     .side-item div:last-child {
-        display: none;
-    }
+        position: absolute;
+        top: 0px;
+        right: 5px;
+        background-color: #ffffff;
+        color: var(--midGray);
+        border-radius: 25px;
+        padding: 0px 5.5px;
+        font-family: Inter;
+    } */
 
     .side-item{
         border: 2px solid var(--gray);
@@ -356,13 +367,13 @@ input:focus{
         padding: 15px 20px;
         font-family: Fraunces;
         font-weight: 500;
+        position: relative;
     }
 
     .side-item:hover{
         background-color: #ffffff;
         color: var(--midGray);
-        border-radius: 25px;
-        cursor: pointer;
+        border-radius: 25px
     }
 
     .side-project{
@@ -372,12 +383,16 @@ input:focus{
     }
 
     .side-project-header{
+        padding: 0px;
+    }
+
+    .side-project-header>span{
         border: 2px dotted var(--gray);
         border-radius: 25px;
         padding: 15px 20px;
     }
 
-    .side-project-header div{
+    .side-project-heading{
         display: none;
     }
 
@@ -389,28 +404,9 @@ input:focus{
        
     .project-modal{
         width: 80%;
-        height: 20%;
+        height: 15%;
     }
-    
-    .project-modal-grp{
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        gap: 20px;
-    }
-    
-    .project-modal-heading{
-        font-family: Fraunces;
-        font-weight: 900;
-        font-size: 1.5rem;
-        text-align: center;
-        color: #ffffff;
-        padding-bottom: 20px;
-    }
-    
-    #project-input{
-        flex: 1;
-    }
+
 
     /* MAIN-CONTENT */
 
