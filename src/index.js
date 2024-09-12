@@ -29,47 +29,35 @@ const domElements = {
 }
 
 // Store all the Tasks
-const allItems = [
-    {
-        title: `Beta testing update`,
-        dueDate: "2024-09-16",
-        time: "10:00",
-        priority: "1",
-        project: `Dev`,
-        finished: false
-    },
-    {
-        title: `Buy passes`,
-        dueDate: "2024-09-04",
-        time: "22:00",
-        priority: "0",
-        project: `Life`,
-        finished: false
-    },
-    {
-        title: `Beta build update`,
-        dueDate: "2024-08-15",
-        time: "17:30",
-        priority: "1",
-        project: `Dev`,
-        finished: true
-    }
-];
-
-//Store Projects
-const projects = [`Life`, `Dev`];
-
-//Change task status
-// document.addEventListener(`click`, (e)=>{
-//     const target = e.target.closest(`.change-status`);
-//     if(target){
-//         const index = target.dataset.index;
-//         const value = allItems[index].finished;
-//         allItems[index].finished = value ? false : true;
-//         updateCount(domElements, allItems);
-//         renderDOM(currentPage,domElements,allItems);
-//     }
-// })
+const storageObj = {
+    allItems: [
+        {
+            title: `Beta testing update`,
+            dueDate: "2024-09-16",
+            time: "10:00",
+            priority: "1",
+            project: `Dev`,
+            finished: false
+        },
+        {
+            title: `Buy passes`,
+            dueDate: "2024-09-04",
+            time: "22:00",
+            priority: "0",
+            project: `Life`,
+            finished: false
+        },
+        {
+            title: `Beta build update`,
+            dueDate: "2024-08-15",
+            time: "17:30",
+            priority: "1",
+            project: `Dev`,
+            finished: true
+        }
+    ],
+    projects: [`Life`, `Dev`]
+}
 
 //Open Modal
 domElements.addTask.addEventListener(`click`, ()=>{
@@ -80,31 +68,23 @@ domElements.addTask.addEventListener(`click`, ()=>{
 //Add new Tasks
 domElements.modalBtn.addEventListener(`click`, ()=>{
     const newTask = cacheInput();
-    allItems.push(newTask);
-    renderDOM(currentPage,domElements,allItems);
+    storageObj.allItems.push(newTask);
+    renderDOM(currentPage,domElements,storageObj.allItems);
     clearInput();
     domElements.modal.close();
+    storeItems();
 });
 
-//Edit Task
-document.addEventListener(`click`, (e)=>{
-    const target = e.target.closest(`.edit-task`);
-    if(target){
-
-        editTask(target,allItems);
-    }
-})
-
 //Open project modal
-createProject(domElements,projects);
+createProject(domElements,storageObj.projects);
 
 //Render projects
 document.addEventListener(`click`, (e)=>{
-    const target = e.target.closest(`.side-item`);
+    const target = e.target.closest(`.side-item-label`);
     if(target){
-        const name = target.dataset.d;
+        const name = target.parentElement.dataset.d;
         changeTitle(name,domElements);
-        renderDOM(name,domElements,allItems);
+        renderDOM(name,domElements,storageObj.allItems);
     }
 })
 
@@ -114,21 +94,40 @@ document.addEventListener(`click`, (e)=>{
     if(target){
         const item = e.target.dataset.d;
         let index;
-        projects.forEach((pro,i)=>{
+        storageObj.projects.forEach((pro,i)=>{
             if(pro === item){
                 index = i;
             }
         })
-        projects.splice(index,1);
+        storageObj.projects.splice(index,1);
+        createProjectElements(domElements,storageObj.projects);
     }
-    createProjectElements(domElements,projects);
+    
 })
 
-addEvent(domElements.homePage, domElements, allItems);
-addEvent(domElements.priorityPage, domElements, allItems);
-addEvent(domElements.todayPage, domElements, allItems);
-addEvent(domElements.tomorrowPage, domElements, allItems);
-addEvent(domElements.finishedPage, domElements, allItems);
+//Store Items locally
+function storeItems(){   
+    localStorage.setItem(`obj`, JSON.stringify(storageObj));
+}
 
-renderDOM(currentPage,domElements,allItems);
-createProjectElements(domElements,projects);
+//Get stored Items
+(()=>{
+    let tempObj = JSON.parse(localStorage.getItem(`obj`));
+    if(tempObj !== null){
+        storageObj.allItems = tempObj.allItems;
+        storageObj.projects = tempObj.projects;
+
+    }
+}
+)();
+
+addEvent(domElements.homePage, domElements, storageObj.allItems);
+addEvent(domElements.priorityPage, domElements, storageObj.allItems);
+addEvent(domElements.todayPage, domElements, storageObj.allItems);
+addEvent(domElements.tomorrowPage, domElements, storageObj.allItems);
+addEvent(domElements.finishedPage, domElements, storageObj.allItems);
+
+renderDOM(currentPage,domElements,storageObj.allItems);
+createProjectElements(domElements,storageObj.projects);
+
+export{storeItems};

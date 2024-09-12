@@ -1,3 +1,5 @@
+import { storeItems } from "../index.js";
+
 let currentPage = `Home`;
 
 function changeTitle(event,dom){
@@ -277,9 +279,11 @@ function createProjectElements(dom, proArray){
         sideItem.classList.add(`side-item`);
         sideItem.classList.add(`side-item-pro`);
         sideItem.setAttribute(`data-d`, item);
+        const sideItemLabel = document.createElement(`div`);
         const span1 = document.createElement(`span`);
         const div = document.createElement(`div`);
         const span2 = document.createElement(`span`);
+        sideItemLabel.classList.add(`side-item-label`)
         span1.classList.add(`material-symbols-outlined`);
         span1.textContent = `donut_large`;
         div.classList.add(`side-item-lable`);
@@ -290,12 +294,14 @@ function createProjectElements(dom, proArray){
         span2.textContent = `delete`
 
         dom.sideBar.append(sideItem);
-        sideItem.append(span1);
-        sideItem.append(div);
+        sideItemLabel.append(span1);
+        sideItemLabel.append(div);
+        sideItem.append(sideItemLabel);
         sideItem.append(span2);
 
         addProject(dom,item);
     })
+    storeItems();
 }
 
 function addProject(dom, name){
@@ -311,7 +317,6 @@ function editTask(event,array){
 
 function itemFunc(page,dom,array,filter){
     const changeBtn = document.querySelectorAll(`.change-status`);
-    const editBtn = document.querySelectorAll(`.edit-task`);
     const deleteBtn = document.querySelectorAll(`.delete-task`);
 
     //Change status of ToDos
@@ -319,15 +324,8 @@ function itemFunc(page,dom,array,filter){
         button.addEventListener(`click`, (e)=>{
             const item = filter[e.target.dataset.index];
             item.finished = item.finished ? false : true;
-            renderDOM(page,dom,array)
-        });
-    });
-
-    //Edit ToDos
-    editBtn.forEach((button)=>{
-        button.addEventListener(`click`, (e)=>{
-            const item = filter[e.target.dataset.index];
-
+            renderDOM(page,dom,array);
+            storeItems();
         });
     });
 
@@ -342,7 +340,8 @@ function itemFunc(page,dom,array,filter){
                 }
             });
             array.splice(deleteIndex, 1);
-            renderDOM(page,dom,array)
+            renderDOM(page,dom,array);
+            storeItems();
         });
     });
 
