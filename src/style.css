@@ -342,13 +342,14 @@ input:focus{
         margin: 10px;
     }
 
-    .side-item div:last-child{
+    .count{
         display: none;
     }
     
     .side-item span:first-of-type{
         display: none;
     }
+
 /* 
     .side-item div:last-child {
         position: absolute;
@@ -367,7 +368,6 @@ input:focus{
         padding: 15px 20px;
         font-family: Fraunces;
         font-weight: 500;
-        position: relative;
     }
 
     .side-item:hover{
